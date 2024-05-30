@@ -1,7 +1,7 @@
 .cart-container {
     display: flex;
     justify-content: center;
-    min-height: 75vh;
+    min-height: 100vh;
   }
   
   @media screen and (min-width: 768px) {
@@ -25,7 +25,7 @@
   }
   
   .cart-heading {
-    color: #3e4c59;
+    /* color: #3e4c59; */
     font-family: 'Roboto';
     font-size: 24px;
     font-weight: 700;
@@ -37,15 +37,13 @@
     }
   }
   
-  /* Write your CSS here */
-  
   .removeAll-button {
     color: black;
     display: flex;
     align-self: flex-end;
     padding: 10px;
     border-radius: 6px;
-    color: #0b69ff;
+    /* color: #0b69ff; */
     background-color: transparent;
     border-width: 0px;
     cursor: pointer;
@@ -57,4 +55,12 @@
     .removeAll-button {
       font-size: 18px;
     }
+  }
+
+  .cartTotalPrice{
+    color: #0b69ff;
+  }
+
+  .textDark {
+    color: #ffffff;
   }

@@ -7,10 +7,12 @@ import "./index.css"
 const CartListView = () =>(
     <ThemeContext.Consumer>
         {value =>{
-            const {cartList} = value
+            const {cartList,isDarkTheme} = value
+
+            const cartBgColor = isDarkTheme ? 'bgDark' : 'bgLight';
             
         return(
-            <ul className="cart-list">
+            <ul className={`cart-list ${cartBgColor}`}>
                 {cartList.map(eachCartItem =>(
                     <CartItem  cartItemDetails={eachCartItem} key={eachCartItem.id}/>
                 ))}

@@ -22,6 +22,7 @@ class ProductDetails extends Component {
   }
 
   getFormattedData = data => ({
+    id: data.id,
     title: data.title,
     description: data.description,
     price: data.price,

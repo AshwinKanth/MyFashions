@@ -12,9 +12,8 @@ const Recommendations = props => {
 
   return (
     <div className="filters-container">
-      <h1 className="filters-heading">Recommended</h1>
       <select
-         className="sort-by-select"
+        className="sort-by-select"
         value={activeOptionId}
         onChange={onChangeSortby}
       >

@@ -1,22 +1,26 @@
 import {Component} from 'react'
 import Loader from "react-loader-spinner"
 
-// import Filters from '../Filters'
+import Filters from '../Filters'
 import Recommendations from '../Recommendations'
 
 import ThemeContext from '../../Context/ThemeContext'
 
 import ProductCard from '../ProductCard'
 
-import './index.css'
+import "./index.css"
 
 const sortbyOptions = [
+  {
+    optionId: 'asc',
+    displayText: 'RECOMMENDED',
+  },
   {
     optionId: 'desc',
     displayText: 'NEWEST FIRST',
   },
   {
-    optionId: 'asc',
+    optionId: 'ascd',
     displayText: 'POPULAR',
   },
   {
@@ -29,6 +33,25 @@ const sortbyOptions = [
   },
 ]
 
+const categoryOptions = [
+  {
+    name: 'jewelery',
+    categoryId: '1',
+  },
+  {
+    name: 'electronics',
+    categoryId: '2',
+  },
+  {
+    name: "men's clothing",
+    categoryId: '3',
+  },
+  {
+    name: "women's clothing",
+    categoryId: '4',
+  }
+]
+
 const apiStatusConstant = {
   initial : "INITIAL",
   success : "SUCCESS",
@@ -37,7 +60,7 @@ const apiStatusConstant = {
 }
 
 class Shop extends Component {
-  state = {productsList: [], apiStatus: apiStatusConstant.initial,activeOptionId: sortbyOptions[0].optionId}
+  state = {productsList: [], apiStatus: apiStatusConstant.initial,activeOptionId: sortbyOptions[0].optionId,activeCategoryId: '',}
 
   componentDidMount() {
     this.getProducts()
@@ -46,9 +69,9 @@ class Shop extends Component {
   getProducts = async () => {
     this.setState({apiStatus: apiStatusConstant.inProgress})
    
-    const {activeOptionId} = this.state
+    const {activeOptionId,activeCategoryId} = this.state
 
-    const apiUrl = `https://fakestoreapi.com/products?sort=${activeOptionId}`
+    const apiUrl = `https://fakestoreapi.com/products?sort=${activeOptionId}&categories=${activeCategoryId}`
     const options = {
       method: 'GET',
     }
@@ -79,14 +102,25 @@ class Shop extends Component {
     this.setState({activeOptionId}, this.getProducts)
   }
 
+  changeCategory = activeCategoryId => {
+    this.setState({activeCategoryId}, this.getProducts)
+  }
+
+
+
   renderProducts = () => {
-    const {productsList,activeOptionId} = this.state
+    const {productsList,activeOptionId,activeCategoryId} = this.state
+    console.log(activeCategoryId)
     return (
       <div>
         <div className="filters-recommendations-totalItems-container">
           <div className="filters-recommendations-container">
-            <p className="totalItems">3423 ITEMS</p>
-            {/* <Filters /> */}
+            <p className="totalItems">{productsList.length} ITEMS</p>
+            <Filters
+              categoryOptions={categoryOptions}
+              activeCategoryId={activeCategoryId}
+              changeCategory={this.changeCategory} 
+            />
           </div>
           <Recommendations
             activeOptionId={activeOptionId}

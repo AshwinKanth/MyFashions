@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     align-self: center;
+    padding: 30px;
   }
   
   .cart-empty-img {
@@ -18,7 +19,7 @@
   }
   
   .cart-empty-heading {
-    color: #1e293b;
+    /* color: #1e293b; */
     font-family: 'Roboto';
     font-size: 24px;
     font-weight: 500;
