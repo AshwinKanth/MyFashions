@@ -68,20 +68,20 @@ class Header extends Component{
                                 </button>
                                 {isToggle && (
                                     <ul className="small-nav-Items-container">
-                                        <Link to="/" className="nav-links">
-                                        <li className="navItem">HOME</li>
+                                        <Link to="/" className={`nav-links ${text}`}>
+                                            <li className="navItem">HOME</li>
                                         </Link>
-                                        <Link to="/shop" className="nav-links">
-                                        <li className="navItem">SHOP</li>
+                                        <Link to="/shop" className={`nav-links ${text}`}>
+                                            <li className="navItem">SHOP</li>
                                         </Link>
-                                        <Link to="/cart" className="nav-links">
-                                        <li className="navItem">CART {renderCartItemsCount()}</li>
+                                        <Link to="/cart" className={`nav-links ${text}`}>
+                                            <li className="navItem">CART {renderCartItemsCount()}</li>
                                         </Link>
-                                        <Link to="/about" className="nav-links">
-                                        <li className="navItem">ABOUT</li>
+                                        <Link to="/about" className={`nav-links ${text}`}>
+                                            <li className="navItem">ABOUT</li>
                                         </Link>
-                                        <Link to="/contact" className="nav-links">
-                                        <li className="navItem">CONTACT US</li>
+                                        <Link to="/contact" className={`nav-links ${text}`}>
+                                            <li className="navItem">CONTACT US</li>
                                         </Link>
                                     </ul>
                                     )}
@@ -94,7 +94,7 @@ class Header extends Component{
                                     />
                                 </Link>
                             </div>
-                            <h1 className={`headerHeading ${text}`}>LOGO</h1>
+                            <h1 className={`font-effect-neon ${text}`}>My Fashion</h1>
                             <div>
                                 <IoSearch className={`icons ${iconsColor}`} />
                                 <Link to="/favourite" className="navLink">
@@ -126,29 +126,22 @@ class Header extends Component{
                         </div>
                         <nav className="nav-container">
                             <ul className="nav-items-container">
-                                <Link to="/" className="nav-links">
-                                <li className="navItem">HOME</li>
+                                <Link to="/" className={`nav-links ${text}`}>
+                                    <li className="navItem">HOME</li>
                                 </Link>
-                                <Link to="/shop" className="nav-links">
-                                <li className="navItem">SHOP</li>
+                                <Link to="/shop" className={`nav-links ${text}`}>
+                                    <li className="navItem">SHOP</li>
                                 </Link>
-                                <Link to="/cart" className="nav-links">
-                                <li className="navItem">CART {renderCartItemsCount()}</li>
+                                <Link to="/cart" className={`nav-links ${text}`}>
+                                    <li className="navItem">CART {renderCartItemsCount()}</li>
                                 </Link>
-                                <Link to="/about" className="nav-links">
-                                <li className="navItem">ABOUT</li>
+                                <Link to="/about" className={`nav-links ${text}`}>
+                                    <li className="navItem">ABOUT</li>
                                 </Link>
-                                <Link to="/contact" className="nav-links">
-                                <li className="navItem">CONTACT US</li>
+                                <Link to="/contact" className={`nav-links ${text}`}>
+                                    <li className="navItem">CONTACT US</li>
                                 </Link>
                             </ul>
-                            {/* <button
-                                type="button"
-                                className="menu-icon"
-                                onClick={this.onClickMenuIcon}
-                            >
-                                <MdMenu className="nav-text" size={20} />
-                            </button> */}
                         </nav>
                     </div>
                 )

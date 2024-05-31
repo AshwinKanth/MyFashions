@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Loader from "react-loader-spinner"
 
 import Filters from '../Filters'
+
 import Recommendations from '../Recommendations'
 
 import ThemeContext from '../../Context/ThemeContext'
@@ -19,27 +20,15 @@ const sortbyOptions = [
     optionId: 'desc',
     displayText: 'NEWEST FIRST',
   },
-  {
-    optionId: 'ascd',
-    displayText: 'POPULAR',
-  },
-  {
-    optionId: 'PRICE_HIGH',
-    displayText: 'PRICE : HIGH TO LOW',
-  },
-  {
-    optionId: 'PRICE_LOW',
-    displayText: 'PRICE : LOW TO HIGH',
-  },
 ]
 
 const categoryOptions = [
   {
-    name: 'jewelery',
+    name: 'electronics',
     categoryId: '1',
   },
   {
-    name: 'electronics',
+    name: 'jewelery',
     categoryId: '2',
   },
   {
@@ -52,6 +41,7 @@ const categoryOptions = [
   }
 ]
 
+
 const apiStatusConstant = {
   initial : "INITIAL",
   success : "SUCCESS",
@@ -60,7 +50,7 @@ const apiStatusConstant = {
 }
 
 class Shop extends Component {
-  state = {productsList: [], apiStatus: apiStatusConstant.initial,activeOptionId: sortbyOptions[0].optionId,activeCategoryId: '',}
+  state = {productsList: [], apiStatus: apiStatusConstant.initial,activeOptionId: "",activeCategoryId:""}
 
   componentDidMount() {
     this.getProducts()
@@ -72,6 +62,7 @@ class Shop extends Component {
     const {activeOptionId,activeCategoryId} = this.state
 
     const apiUrl = `https://fakestoreapi.com/products?sort=${activeOptionId}&categories=${activeCategoryId}`
+    
     const options = {
       method: 'GET',
     }
@@ -80,7 +71,8 @@ class Shop extends Component {
 
     if (response.ok === true) {
       const fetcheddata = await response.json()
-      // console.log(fetcheddata)
+      console.log(fetcheddata)
+
       const updatedData = fetcheddata.map(each => ({
         id: each.id,
         title: each.title,
@@ -112,15 +104,23 @@ class Shop extends Component {
     const {productsList,activeOptionId,activeCategoryId} = this.state
     console.log(activeCategoryId)
     return (
-      <div>
+      <ThemeContext.Consumer>
+        {value =>{
+          const {isDarkTheme} = value
+
+          const text = isDarkTheme ? 'textDark' : 'textLight';
+
+          return(
+            <div>
         <div className="filters-recommendations-totalItems-container">
           <div className="filters-recommendations-container">
-            <p className="totalItems">{productsList.length} ITEMS</p>
+            <p className={`totalItems ${text}`}>{productsList.length} ITEMS</p>
             <Filters
-              categoryOptions={categoryOptions}
               activeCategoryId={activeCategoryId}
-              changeCategory={this.changeCategory} 
+              categoryOptions={categoryOptions}
+              changeCategory={this.changeCategory}
             />
+
           </div>
           <Recommendations
             activeOptionId={activeOptionId}
@@ -138,6 +138,9 @@ class Shop extends Component {
           ))}
         </ul>
       </div>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 

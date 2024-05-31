@@ -6,6 +6,8 @@ import FilterItem from '../FilterItem';
 import ThemeContext from '../../Context/ThemeContext'
 import "./index.css"
 
+
+
 class Filters extends Component{
   state = {isToggle: false}
 
@@ -15,8 +17,9 @@ class Filters extends Component{
     }))
   }
 
+
   render(){
-    const {isToggle} = this.state
+    const {isToggle,activeOptionId,categoryOptions} = this.state
     return(
       <ThemeContext.Consumer>
         {value => {
@@ -48,7 +51,11 @@ class Filters extends Component{
                 {isToggle &&(
                   <div className='filter-details-container'>
                     <p className={`sort-by-select ${text}`}>Category</p>
-                    <FilterItem/>
+                    <FilterItem 
+                      activeOptionId={activeOptionId}
+                      categoryOptions={categoryOptions}
+                      changeCategory={this.changeCategory}
+                    />
                     <p className="sort-by-select">Rating</p>
                     <select className='select-option'>
                       <option className='select-option'>4 Above</option>
@@ -68,3 +75,5 @@ class Filters extends Component{
 
 
 export default Filters
+
+

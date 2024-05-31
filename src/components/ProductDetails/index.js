@@ -39,6 +39,7 @@ class ProductDetails extends Component {
     const {id} = params
 
     const apiUrl = `https://fakestoreapi.com/products/${id}`
+    // const apiUrl = `https://dummyjson.com/products?limit=194${id}`
     const options = {
       method: 'GET',
     }

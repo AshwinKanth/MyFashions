@@ -6,7 +6,9 @@ import './index.css'
 
 const ProductCard = props => {
   const {productCardDetails} = props
-  const {title, image, rating, count, category, price,id} = productCardDetails
+  // const {title, images, rating, stock, category, price,id} = productCardDetails
+
+  const {title,image,rating,count,category,price,id} = productCardDetails
 
   return (
     <ThemeContext.Consumer>
@@ -16,7 +18,7 @@ const ProductCard = props => {
         const text = isDarkTheme ? 'textDark' : 'textLight'
 
         const productsCount =
-          count > 150 ? 'Hurry!! free delivery' : 'Only few left'
+          count > 50 ? 'Hurry!! free delivery' : 'Only few left'
 
         return (
           <div className="productsCard-container">

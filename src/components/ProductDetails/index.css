@@ -53,13 +53,13 @@
     background-color: #3b82f6;
     border-radius: 6px;
     padding: 6px 16px;
-    width: 10%;
+    width: 5%;
     margin-bottom: 15px;
   }
   
   @media screen and (max-width: 768px) {
     .detailsRating-container {
-      width: 25%;
+      width: 13%;
     }
   }
   
