@@ -17,9 +17,15 @@ class Filters extends Component{
     }))
   }
 
+  changeCategory = activeCategoryId => {
+    this.setState({activeCategoryId}, this.getProducts)
+  }
+
+
 
   render(){
-    const {isToggle,activeOptionId,categoryOptions} = this.state
+    const { activeOptionId, categoryOptions } = this.props;
+    const {isToggle} = this.state
     return(
       <ThemeContext.Consumer>
         {value => {
