@@ -19,6 +19,10 @@
   transform: scale(1.1);
 }
 
+.navLink{
+  text-decoration: none;
+}
+
 
 .product-item {
     display: flex;
@@ -32,7 +36,7 @@
     padding: 10px;
     min-width: 150px;
     max-width: 250px;
-    
+    text-decoration: none;
   }
   
   @media screen and (max-width: 768px) {
