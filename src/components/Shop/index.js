@@ -1,212 +1,163 @@
-import {Component} from 'react'
-import Loader from "react-loader-spinner"
+import { useState,useEffect } from 'react'
 
-import Filters from '../Filters'
-
-import Recommendations from '../Recommendations'
+import { FaAngleLeft ,FaAngleRight} from "react-icons/fa";
 
 import ThemeContext from '../../Context/ThemeContext'
-
-import ProductCard from '../ProductCard'
-
 import "./index.css"
+import ProductCard from '../ProductCard';
 
-const sortbyOptions = [
-  {
-    optionId: 'asc',
-    displayText: 'RECOMMENDED',
-  },
-  {
-    optionId: 'desc',
-    displayText: 'NEWEST FIRST',
-  },
-]
 
-const categoryOptions = [
-  {
-    name: 'electronics',
-    categoryId: '1',
-  },
-  {
-    name: 'jewelery',
-    categoryId: '2',
-  },
-  {
-    name: "men's clothing",
-    categoryId: '3',
-  },
-  {
-    name: "women's clothing",
-    categoryId: '4',
+const Shop = () =>{
+  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("");
+  const [recommendations,setRecommendations] = useState("")
+  const [isToggle, setToggle] = useState(false)
+
+  const getProducts = () => {
+
+    if (!category) {
+      fetch(`https://fakestoreapi.com/products`)
+        .then((res) => res.json())
+        .then((d) => {
+          setProducts(d);
+          console.log(d);
+        });
+    }
+     else {
+      fetch(`https://fakestoreapi.com/products/category/${category}`)
+        .then((res) => res.json())
+        .then((d) => {
+          setProducts(d);
+          console.log(d);
+        });
+    }
   }
-]
 
 
-const apiStatusConstant = {
-  initial : "INITIAL",
-  success : "SUCCESS",
-  failure : "FAILURE",
-  inProgress : "IN_PROGRESS",
+  const onClickMenuIcon = () => {
+        setToggle((prevState) => !prevState)
+      }
+
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+
+  useEffect(() => {
+    getProducts();
+  }, [category]);
+
+const handleRecommendationsChange = event =>{
+  setRecommendations(event.target.value)
 }
 
-class Shop extends Component {
-  state = {productsList: [], apiStatus: apiStatusConstant.initial,activeOptionId: "",activeCategoryId:""}
-
-  componentDidMount() {
-    this.getProducts()
-  }
-
-  getProducts = async () => {
-    this.setState({apiStatus: apiStatusConstant.inProgress})
-   
-    const {activeOptionId,activeCategoryId} = this.state
-
-    const apiUrl = `https://fakestoreapi.com/products?sort=${activeOptionId}&categories=${activeCategoryId}`
-    
-    const options = {
-      method: 'GET',
-    }
-
-    const response = await fetch(apiUrl, options)
-
-    if (response.ok === true) {
-      const fetcheddata = await response.json()
-      console.log(fetcheddata)
-
-      const updatedData = fetcheddata.map(each => ({
-        id: each.id,
-        title: each.title,
-        category: each.category,
-        price: each.price,
-        image: each.image,
-        rating: each.rating.rate,
-        count: each.rating.count,
-      }))
-      this.setState({
-        productsList: updatedData,
-        apiStatus:apiStatusConstant.success })
-    }else{
-      this.setState({apiStatus: apiStatusConstant.failure})
-    }
-  }
-
-  changeSortby = activeOptionId => {
-    this.setState({activeOptionId}, this.getProducts)
-  }
-
-  changeCategory = activeCategoryId => {
-    this.setState({activeCategoryId}, this.getProducts)
-  }
+useEffect(() =>{
+  getProducts();
+},[recommendations])
 
 
 
-  renderProducts = () => {
-    const {productsList,activeOptionId,activeCategoryId} = this.state
-    console.log(activeCategoryId)
-    return (
-      <ThemeContext.Consumer>
-        {value =>{
-          const {isDarkTheme} = value
+  return(
+    <ThemeContext.Consumer>
+      {value =>{
+        const {isDarkTheme} = value
 
-          const text = isDarkTheme ? 'textDark' : 'textLight';
+        const shopBgColor = isDarkTheme ? 'bgDark' : 'bgLight'
+        const text = isDarkTheme ? 'textDark' : 'textLight'
 
-          return(
-            <div>
-        <div className="filters-recommendations-totalItems-container">
-          <div className="filters-recommendations-container">
-            <p className={`totalItems ${text}`}>{productsList.length} ITEMS</p>
-            <Filters
-              activeCategoryId={activeCategoryId}
-              categoryOptions={categoryOptions}
-              changeCategory={this.changeCategory}
-            />
-
-          </div>
-          <Recommendations
-            activeOptionId={activeOptionId}
-            sortbyOptions={sortbyOptions}
-            changeSortby={this.changeSortby}
-          />
-        </div>
-        <hr className="text" />
-        <ul className="productsList-container">
-          {productsList.map(eachProduct => (
-            <ProductCard
-              productCardDetails={eachProduct}
-              key={eachProduct.id}
-            />
-          ))}
-        </ul>
-      </div>
-          )
-        }}
-      </ThemeContext.Consumer>
-    )
-  }
-
-  renderFailureView = () => (
-    <div className="failure-container">
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
-        alt="failure view"
-        className="no-jobs-image"
-      />
-      <h1 className="failureHeading">Oops! Something Went Wrong</h1>
-      <p className="failureDescription">
-        We cannot seem to find the page you are looking for
-      </p>
-      <button type="button" className="retryButton" onClick={this.getProducts}>
-        Retry
-      </button>
-    </div>
-  )
-
-  renderLoadingView = () => (
-    <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
-    </div>
-  )
-
-  
-
-  renderProductsListView = () =>{
-    const {apiStatus} = this.state
-
-    switch (apiStatus) {
-      case apiStatusConstant.success:
-        return this.renderProducts()
-      case apiStatusConstant.failure:
-        return this.renderFailureView()
-      case apiStatus.inProgress:
-        return this.renderLoadingView()
-      default:
-        return null;
-    }
-  }
-
-
-  render() {
-    return (
-      <ThemeContext.Consumer>
-        {value => {
-          const {isDarkTheme} = value
-
-          const shopBgColor = isDarkTheme ? 'bgDark' : 'bgLight'
-          const text = isDarkTheme ? 'textDark' : 'textLight'
-
-          return (
-            <div className={`shoppingBg-container ${shopBgColor}`}>
-              <hr className={`${text}`} />
-              {this.renderProductsListView()}
-              
+        return(
+          <>
+          <div className={`main-container ${shopBgColor}`}>
+            <div className='all-filters-container'>
+            <p className={`totalItems ${text}`}>{products.length} ITEMS</p>
+              <div className="filters-container">
+                <div>
+                  {isToggle ? (
+                    <button
+                      type="button"
+                      className={`filterIcon ${text}`}
+                      onClick={onClickMenuIcon}
+                    >
+                    <FaAngleLeft className={`filterText ${text}`} /> HIDE FILTERS
+                    </button>
+                    ):(
+                    <button
+                      type="button"
+                      className={`filterIcon ${text}`}
+                      onClick={onClickMenuIcon}
+                    >
+                    <FaAngleRight className={`filterText ${text}`}  /> SHOW FILTERS
+                    </button>
+                  )}
+                </div>
+                  {isToggle &&(
+                    <div className="filter-container">
+                      <h3>Category</h3>
+                      <select onChange={handleCategoryChange} value={category}>
+                        <option value="">All</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="jewelery">Jewelery</option>
+                        <option value="men's clothing">Men's Clothing</option>
+                        <option value="women's clothing">Women's Clothing</option>
+                      </select>
+                      <h3>Gender</h3>
+                      <select>
+                      <option value="">All</option>
+                        <option>Men</option>
+                        <option>Women </option>
+                        <option>Men & Women</option>
+                        <option>Boys</option>
+                        <option>Girls</option>
+                      </select>
+                      <h3>Computer Accessories</h3>
+                      <select>
+                      <option value="">All</option>
+                        <option>Remote Controllers</option>
+                        <option>Laptop Accessories</option>
+                        <option>Computer Peripherals</option>
+                        <option>ProcessorCoolers</option>
+                        <option>Computer Power Suppllies</option>
+                      </select>
+                      <h3>Jewelery</h3>
+                      <select>
+                      <option value="">All</option>
+                        <option>Alloy</option>
+                        <option>Brass</option>
+                        <option>Copper</option>
+                        <option>Crystal</option>
+                        <option>Stone</option>
+                      </select>
+                    </div>
+                    )}
+                  <div>
+                </div>
+                </div>
+                  <div className='recomendations-container'>
+                      <select onChange={handleRecommendationsChange} value={recommendations} className='sort-by-select'>
+                        <option className="select-option" value="asc">Recommended</option>
+                        <option className="select-option" value="desc">Newest First</option>
+                        <option className="select-option" value="desc">Popular</option>
+                        <option className="select-option" value="desc">Price: High To Low</option>
+                        <option className="select-option" value="desc">Price: Low To High</option>
+                      </select>
+                  </div>
             </div>
-          )
-        }}
-      </ThemeContext.Consumer>
-    )
-  }
+                <div className={`product-container ${shopBgColor}`}>
+                  {products ? (
+                    products.map((data) => <ProductCard key={data.id} productCardDetails={data} />)
+                    ) : (
+                      <h1>No Products Found</h1>
+                    )}
+                </div>
+          </div>
+        </>
+        )
+      }}
+    </ThemeContext.Consumer>
+  )
 }
-
 
 export default Shop
+
 

@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import Loader from "react-loader-spinner"
+import ThreeCircles from "react-loader-spinner"
 
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import ThemeContext from '../../Context/ThemeContext'
@@ -39,7 +39,6 @@ class ProductDetails extends Component {
     const {id} = params
 
     const apiUrl = `https://fakestoreapi.com/products/${id}`
-    // const apiUrl = `https://dummyjson.com/products?limit=194${id}`
     const options = {
       method: 'GET',
     }
@@ -48,7 +47,6 @@ class ProductDetails extends Component {
 
     if (response.ok === true) {
       const data = await response.json()
-      // console.log(data)
       const fetchedData = this.getFormattedData(data)
 
       this.setState({productData: fetchedData,apiStatus: apiStatusConstant.success})
@@ -71,11 +69,7 @@ class ProductDetails extends Component {
 
   renderProductDetails = () => {
     const {productData, quantity} = this.state
-    const {image, price, rating, description, count, title, category} =
-      productData
-
-    const productsCount =
-      count > 150 ? 'Hurry!! free delivery' : 'Only few left'
+    const {image, price, rating, description, count, title, category} = productData
 
     return (
       <ThemeContext.Consumer>
@@ -97,18 +91,19 @@ class ProductDetails extends Component {
                 <h1 className={`productTitle ${text}`}>{title}</h1>
                 <p className={`productCategory ${text}`}>{`by ${category}`}</p>
                 <p className={`productPrice ${text}`}>{`Rs ${price}/-`}</p>
-                <div className="detailsRating-container">
-                  <p className={`rating ${text}`}>{rating}</p>
-                  <img
-                    src="https://assets.ccbp.in/frontend/react-js/star-img.png"
-                    className="starImage"
-                    alt="star"
-                  />
+                <div className='detailsRating-container'>
+                  <div className="rating-container">
+                    <p className={`rating ${text}`}>{rating}</p>
+                    <img
+                      src="https://assets.ccbp.in/frontend/react-js/star-img.png"
+                      className="starImage"
+                      alt="star"
+                    />
+                  </div>
+                <p className={`review ${text}`}>{count} Reviews</p>
                 </div>
-                <p
-                  className={`count ${text}`}
-                >{`(${count}) ${productsCount}`}</p>
                 <p className={`productDescription ${text}`}>{description}</p>
+                <hr className="text"/>
                 <div className="count-container">
                   <button className="button" onClick={this.onClickDecrement}>
                     <BsDashSquare className={`quantity-icon ${text}`} />
@@ -148,11 +143,12 @@ class ProductDetails extends Component {
 
   renderLoadingView = () => (
     <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+      {/* <Loader type="ThreeDots" color="#ffffff" height="50" width="50" /> */}
+      <ThreeCircles color="rgb(139, 31, 153)" height="70" width="70" />
     </div>
   )
 
-  renderProductDetainsView = () =>{
+  renderProductDetailsView = () =>{
     const {apiStatus} = this.state
 
     switch (apiStatus) {
@@ -176,8 +172,7 @@ class ProductDetails extends Component {
 
           return (
             <div className={`productDetails-container ${productBgColor}`}>
-              <hr />
-              {this.renderProductDetainsView()}
+              {this.renderProductDetailsView()}
             </div>
           )
         }}

@@ -1,4 +1,5 @@
 import Shop from '../Shop'
+import Footer from '../Footer';
 import ThemeContext from '../../Context/ThemeContext'
 
 import './index.css'
@@ -12,6 +13,7 @@ const Home = () => (
       const text = isDarkTheme ? 'textDark' : 'textLight'
 
       return (
+        <>
         <div className={`homeBg-container ${homeBgColor}`}>
           <hr className={`${text}`} />
           <div className="heading-des-container">
@@ -22,11 +24,14 @@ const Home = () => (
               dolor.
             </p>
           </div>
-          <Shop />
         </div>
+        <Shop />
+        <Footer/>
+        </>
       )
     }}
   </ThemeContext.Consumer>
 )
 
 export default Home
+

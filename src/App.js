@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Shop from "./components/Shop";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart"
+import Footer from "./components/Footer";
 
 import ThemeContext from "./Context/ThemeContext";
 
@@ -103,6 +104,7 @@ class App extends Component{
         <Route exact path="/shop" component={Shop}/>
         <Route exact path="/products/:id" component={ProductDetails} />
         <Route exact path="/cart" component={Cart}/>
+        <Route exact path="/contact" component={Footer}/>
         </Switch>
       </div>
       </ThemeContext.Provider>

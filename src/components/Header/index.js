@@ -1,4 +1,5 @@
 import  {Component} from "react"
+import Popup from 'reactjs-popup'
 import {Link} from 'react-router-dom'
 import {MdMenu} from 'react-icons/md'
 // import {AiOutlineClose} from 'react-icons/ai'
@@ -59,33 +60,33 @@ class Header extends Component{
                         <div className="topHeader-container">
                             <div className="nav-logo-container">
                                 <nav className="small-nav-container">
-                                <button
-                                        type="button"
-                                        className="menu-icon"
-                                        onClick={this.onClickMenuIcon}
-                                    >
-                                    <MdMenu className="nav-text" size={20} />
-                                </button>
-                                {isToggle && (
-                                    <ul className="small-nav-Items-container">
-                                        <Link to="/" className={`nav-links ${text}`}>
-                                            <li className="navItem">HOME</li>
-                                        </Link>
-                                        <Link to="/shop" className={`nav-links ${text}`}>
-                                            <li className="navItem">SHOP</li>
-                                        </Link>
-                                        <Link to="/cart" className={`nav-links ${text}`}>
-                                            <li className="navItem">CART {renderCartItemsCount()}</li>
-                                        </Link>
-                                        <Link to="/about" className={`nav-links ${text}`}>
-                                            <li className="navItem">ABOUT</li>
-                                        </Link>
-                                        <Link to="/contact" className={`nav-links ${text}`}>
-                                            <li className="navItem">CONTACT US</li>
-                                        </Link>
-                                    </ul>
-                                    )}
-                                </nav>
+                                    <button
+                                            type="button"
+                                            className="menu-icon"
+                                            onClick={this.onClickMenuIcon}
+                                        >
+                                        <MdMenu className="nav-text" size={20} />
+                                    </button>
+                                    {isToggle && (
+                                        <ul className="small-nav-Items-container">
+                                            <Link to="/" className={`nav-links ${text}`}>
+                                                <li className="navItem">HOME</li>
+                                            </Link>
+                                            <Link to="/shop" className={`nav-links ${text}`}>
+                                                <li className="navItem">SHOP</li>
+                                            </Link>
+                                            <Link to="/cart" className={`nav-links ${text}`}>
+                                                <li className="navItem">CART {renderCartItemsCount()}</li>
+                                            </Link>
+                                            <Link to="/about" className={`nav-links ${text}`}>
+                                                <li className="navItem">ABOUT</li>
+                                            </Link>
+                                            <Link to="/contact" className={`nav-links ${text}`}>
+                                                <li className="navItem">CONTACT US</li>
+                                            </Link>
+                                        </ul>
+                                        )}
+                                    </nav>
                                 <Link to="/" className="logo">
                                     <img
                                     src="https://res.cloudinary.com/dq1ktqbtb/image/upload/v1713597113/Logo_vfw1bu.png"
@@ -95,8 +96,16 @@ class Header extends Component{
                                 </Link>
                             </div>
                             <h1 className={`font-effect-neon ${text}`}>My Fashion</h1>
-                            <div>
-                                <IoSearch className={`icons ${iconsColor}`} />
+                            <div className="icons-container">
+                                    <Popup
+                                        trigger={
+                                            <button className="button"><IoSearch className={`icons ${iconsColor}`}/></button>
+                                        }
+                                        position="bottom left"
+                                        closeOnDocumentClick
+                                        >
+                                        <input type="search" className={`search-box ${text}`} placeholder="search"/>
+                                    </Popup>
                                 <Link to="/favourite" className="navLink">
                                     <GrFavorite className={`icons ${iconsColor}`} />
                                 </Link>

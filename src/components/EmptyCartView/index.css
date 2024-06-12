@@ -3,23 +3,28 @@
     flex-direction: column;
     align-items: center;
     align-self: center;
-    padding: 30px;
+    padding-top: 30px;
+  }
+
+  @media screen and (min-width: 768px){
+    .cart-empty-view-container{
+      padding-top: 0px;
+    }
   }
   
   .cart-empty-img {
-    width: 180px;
-    height: 190px;
+    width: 200px;
+    height: 210px;
   }
   
   @media screen and (min-width: 768px) {
     .cart-empty-img {
-      width: 360px;
-      height: 380px;
+      width: 200px;
+      height: 200px;
     }
   }
   
   .cart-empty-heading {
-    /* color: #1e293b; */
     font-family: 'Roboto';
     font-size: 24px;
     font-weight: 500;

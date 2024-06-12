@@ -6,9 +6,8 @@ import './index.css'
 
 const ProductCard = props => {
   const {productCardDetails} = props
-  // const {title, images, rating, stock, category, price,id} = productCardDetails
 
-  const {title,image,rating,count,category,price,id} = productCardDetails
+  const {title,image,rating,category,price,id} = productCardDetails
 
   return (
     <ThemeContext.Consumer>
@@ -17,24 +16,27 @@ const ProductCard = props => {
 
         const text = isDarkTheme ? 'textDark' : 'textLight'
 
-        const productsCount =
-          count > 50 ? 'Hurry!! free delivery' : 'Only few left'
+        const cardBorder = isDarkTheme ? "borderDark" : "borderLight"
 
         return (
-          <div className="productsCard-container">
+          <div className={`productsCard-container ${cardBorder}`}>
             <div className="favIconContainer">
               <GrFavorite className="favIcon"/>
             </div>
             <div className="productCardContainer">
                 <Link to={`/products/${id}`} className="navLink">
                 <li className="product-item">
-                  <img src={image} alt={title} className="productImage" />
-                  <h1 className={`title ${text}`}>{title}</h1>
-                  <p className={`category ${text}`}>by {category}</p>
+                  <div className="product_item_image_container">
+                    <img src={image} alt={title} className="productImage" />
+                  </div>
+                  <div>
+                    <h1 className={`title ${text}`}>{title}</h1>
+                    <p className={`category ${text}`}>by {category}</p>
+                  </div>
                   <div className="productDetails">
                     <p className={`price ${text}`}>{`Rs ${price}/-`}</p>
                     <div className="rating-container">
-                      <p className="rating">{rating}</p>
+                      <p className="rating">{rating.rate}</p>
                       <img
                         src="https://assets.ccbp.in/frontend/react-js/star-img.png"
                         className="starImage"
@@ -42,9 +44,6 @@ const ProductCard = props => {
                       />
                     </div>
                   </div>
-                  <p
-                    className={`count ${text}`}
-                  >{`(${count}) ${productsCount}`}</p>
                 </li>
                 </Link>
             </div>
